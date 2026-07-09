@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Hero } from "@/components/invite/Hero";
 import { Countdown } from "@/components/invite/Countdown";
 import { EventDetails } from "@/components/invite/EventDetails";
-import { VenueMap } from "@/components/invite/VenueMap";
 import { Footer } from "@/components/invite/Footer";
 
 import { RSVPForm } from "@/components/forms/RSVPForm";
@@ -80,10 +79,6 @@ export default function Home() {
 
       <Reveal>
         <EventDetails />
-      </Reveal>
-
-      <Reveal>
-        <VenueMap />
       </Reveal>
 
       <Reveal>

@@ -37,7 +37,7 @@ export const Reveal = ({ children, delay = 0 }: PropsWithChildren<Props>) => {
 
   const isInView = useInView(ref, {
     once: true,
-    margin: "-50px",
+    margin: "-150px",
   });
 
   const controls = useAnimation();
