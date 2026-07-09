@@ -86,7 +86,7 @@ export default function Home() {
           {itemsManual.map((item) => (
             <li
               key={item.id}
-              className="flex items-center gap-3 rounded-2xl border border-white/60 bg-card p-4 shadow-sm"
+              className="flex items-center gap-3 rounded-2xl border border-silver bg-card p-4 shadow-sm"
             >
               <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-linear-to-br from-ocean to-deep text-primary-foreground">
                 <item.icon
