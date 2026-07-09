@@ -13,7 +13,7 @@ const schema = z.object({
   phone: z.string().trim().min(8, "Telefone inválido").max(20),
   gift_id: z.string().nullable().optional(),
   gift_name: z.string().nullable().optional(),
-  amount: z.coerce.number().min(1, "Informe o valor"),
+  amount: z.number().min(1, "Informe o valor"),
   note: z.string().max(300).optional(),
 });
 
