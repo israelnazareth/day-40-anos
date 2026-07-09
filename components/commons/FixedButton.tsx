@@ -10,7 +10,7 @@ export function FixedButton() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowButton(true);
-    }, 700);
+    }, 800);
 
     return () => clearTimeout(timer);
   }, []);
