@@ -30,10 +30,8 @@ export function Hero() {
           <Image
             src={Day}
             alt="Day"
-            className="mt-6 rounded-2xl m-auto"
+            className="mt-6 rounded-2xl m-auto w-full max-w-xs"
             loading="eager"
-            width={250}
-            height={250}
           />
 
           <div className="mb-6 flex justify-between items-center">

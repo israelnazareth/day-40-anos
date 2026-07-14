@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS "gifts" (
 	"description" TEXT,
 	"image" TEXT,
 	"price" NUMERIC(10,2),
-	"status" STATUS,
+	"status" "STATUS" DEFAULT 'AVAILABLE',
 	"created_at" TIMESTAMP DEFAULT now(),
 	PRIMARY KEY("id")
 );
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS "rsvps" (
 	"event_id" UUID,
 	"name" TEXT NOT NULL,
 	"phone" TEXT,
-	"guests" INTEGER DEFAULT 0,
+	"companions" INTEGER DEFAULT 0,
 	"attendance" BOOLEAN,
 	"message" TEXT,
 	"created_at" TIMESTAMP DEFAULT now(),

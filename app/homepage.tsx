@@ -1,0 +1,157 @@
+"use client";
+
+import Link from "next/link";
+
+import { Countdown } from "@/components/invite/Countdown";
+import { EventDetails } from "@/components/invite/EventDetails";
+import { Footer } from "@/components/invite/Footer";
+import { Hero } from "@/components/invite/Hero";
+
+import { RSVPForm } from "@/components/forms/RSVPForm";
+import { Button } from "@/components/ui/button";
+
+import { FixedButton } from "@/components/commons/FixedButton";
+import { Reveal } from "@/components/commons/Reveal";
+import { RevealLeftToRight } from "@/components/commons/RevealLeftToRight";
+import { Event } from "@/types/forms";
+import { BookOpen, Camera, Gift, Palette, Shirt, UserX } from "lucide-react";
+
+type HomepageProps = {
+  event: Event;
+};
+
+export function Homepage({ event }: HomepageProps) {
+  const itemsManual = [
+    {
+      id: 0,
+      icon: Shirt,
+      title: "Traje",
+      description: "Esporte fino.",
+    },
+    {
+      id: 1,
+      icon: Palette,
+      title: "Cores",
+      description: "All Black! Sem brilho.",
+    },
+    {
+      id: 2,
+      icon: Gift,
+      title: "Presente",
+      description: "Coloque o nome no presente.",
+    },
+    {
+      id: 3,
+      icon: Camera,
+      title: "Fotografia",
+      description: "Tire bastante fotos, mas não atrapalhe o fotógrafo.",
+    },
+    {
+      id: 4,
+      icon: Shirt,
+      title: "RSVP",
+      description: "Confirme sua presença o quanto antes.",
+    },
+    {
+      id: 5,
+      icon: UserX,
+      title: "Convidados",
+      description: "Convidado NÃO convida!",
+    },
+  ];
+
+  return (
+    <main className="min-h-screen bg-background">
+      <FixedButton />
+
+      <Hero />
+
+      <Reveal>
+        <Countdown />
+
+        <section className="px-6 py-8 text-center">
+          <p className="mx-auto max-w-md font-display text-lg italic leading-relaxed text-silver">
+            &quot;Quarenta primaveras merecem ser celebradas com quem faz a vida
+            valer a pena. Sua presença é o meu maior presente.&quot;
+          </p>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <EventDetails />
+      </Reveal>
+
+      <Reveal>
+        <div className="mx-auto max-w-md rounded-4xl bg-linear-to-br from-foam to-secondary p-6 sm:p-8">
+          <div className="text-center">
+            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-linear-to-br from-ocean to-deep text-primary-foreground shadow-sm">
+              <BookOpen className="text-silver" width={30} height={30} />
+            </div>
+            <p className="mt-3 font-body text-[10px] uppercase tracking-[0.4em] text-primary/70">
+              Manual do Convidado
+            </p>
+          </div>
+          <ul className="mt-6 space-y-3">
+            {itemsManual.map((item, i) => (
+              <RevealLeftToRight
+                key={item.id}
+                direction={i % 2 === 0 ? "left-to-right" : "right-to-left"}
+              >
+                <li className="flex items-center gap-3 rounded-2xl border border-silver bg-card p-4 shadow-sm">
+                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-linear-to-br from-ocean to-deep text-primary-foreground">
+                    <item.icon
+                      className="text-silver p-2 rounded-full"
+                      width={40}
+                      height={40}
+                    />
+                  </div>
+                  <div className="min-w-0 pt-0.5">
+                    <p className="font-body text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                      {item.title}
+                    </p>
+                    <p className="mt-1 font-display text-base leading-snug text-deep sm:text-lg">
+                      {item.description}
+                    </p>
+                  </div>
+                </li>
+              </RevealLeftToRight>
+            ))}
+          </ul>
+        </div>
+      </Reveal>
+
+      <Reveal>
+        <section id="rsvp" className="px-6 py-12">
+          <div className="mx-auto max-w-md">
+            <div className="divider-silver mb-10" />
+            <h2 className="text-silver-gradient text-center font-display text-3xl">
+              Confirme sua presença
+            </h2>
+            <p className="text-muted-foreground mt-2 text-center text-sm">
+              Precisamos da sua confirmação até 20 de setembro.
+            </p>
+            <div className="mt-8 rounded-lg border border-silver bg-card/40 p-5">
+              <RSVPForm event={event} />
+            </div>
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="p-6 text-center">
+          <div className="divider-silver mx-auto mb-10 max-w-xs" />
+          <p className="text-silver-dim mb-4 text-xs uppercase tracking-[0.2em]">
+            lista de presentes
+          </p>
+          <Button className="bg-silver-gradient text-black hover:opacity-90">
+            <Link href="/presentes">Ver lista de presentes</Link>
+          </Button>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <Footer />
+      </Reveal>
+    </main>
+  );
+}

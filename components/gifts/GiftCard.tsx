@@ -22,10 +22,10 @@ export function GiftCard({
       {gift.description && (
         <p className="text-muted-foreground mt-2 text-sm">{gift.description}</p>
       )}
-      {gift.image_url && (
+      {gift.image && (
         <div className="mt-4 flex justify-center">
           <Image
-            src={gift.image_url}
+            src={gift.image}
             alt={gift.name}
             width={300}
             height={300}
@@ -40,7 +40,7 @@ export function GiftCard({
             Valor sugerido
           </div>
           <div className="text-silver-gradient font-display text-2xl">
-            {brl(gift.amount)}
+            {gift.price}
           </div>
         </div>
         <Button

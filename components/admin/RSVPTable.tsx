@@ -19,7 +19,6 @@ export function RSVPTable({ data }: { data: RSVPRecord[] }) {
           <TableRow>
             <TableHead>Nome</TableHead>
             <TableHead>WhatsApp</TableHead>
-            <TableHead>Presença</TableHead>
             <TableHead className="text-right">Acomp.</TableHead>
             <TableHead>Mensagem</TableHead>
           </TableRow>

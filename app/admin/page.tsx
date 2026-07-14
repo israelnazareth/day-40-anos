@@ -1,36 +1,40 @@
 import Link from "next/link";
-import { ArrowLeft, Download, Lock } from "lucide-react";
+import {
+  ArrowLeft,
+  // Download,
+  Lock,
+} from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Skeleton } from "@/components/ui/skeleton";
-import { RSVPTable } from "@/components/admin/RSVPTable";
-import { GiftConfirmationTable } from "@/components/admin/GiftConfirmationTable";
-import { toast } from "sonner";
-import { fetchRSVPs } from "../api/rsvps";
-import { fetchGiftConfirmations } from "../api/gifts";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { RSVPTable } from "@/components/admin/RSVPTable";
+// import { GiftConfirmationTable } from "@/components/admin/GiftConfirmationTable";
+// import { toast } from "sonner";
+// import { fetchRSVPs } from "../api/rsvps";
+// import { fetchGiftConfirmations } from "../api/gifts";
 import { AdminContent } from "./admin-content";
 import { GiftConfirmationRecord, RSVPRecord } from "@/types/forms";
 
 // mock rsvps and gifts for now
-const rsvps: RSVPRecord[] = [
-  {
-    id: "1",
-    name: "João Silva",
-    phone: "+55 11 91234-5678",
-    companions: 2,
-    message: "Mal posso esperar para celebrar com vocês!",
-    created_at: "2024-06-01T12:00:00Z",
-  },
-  {
-    id: "2",
-    name: "Maria Oliveira",
-    phone: "+55 21 98765-4321",
-    companions: 0,
-    message: "Infelizmente não poderei comparecer.",
-    created_at: "2024-06-02T15:30:00Z",
-  },
-];
+// const rsvps: RSVPRecord[] = [
+//   {
+//     id: "1",
+//     name: "João Silva",
+//     phone: "+55 11 91234-5678",
+//     companions: 2,
+//     message: "Mal posso esperar para celebrar com vocês!",
+//     created_at: "2024-06-01T12:00:00Z",
+//   },
+//   {
+//     id: "2",
+//     name: "Maria Oliveira",
+//     phone: "+55 21 98765-4321",
+//     companions: 0,
+//     message: "Infelizmente não poderei comparecer.",
+//     created_at: "2024-06-02T15:30:00Z",
+//   },
+// ];
 
 const gifts: GiftConfirmationRecord[] = [
   {
@@ -96,7 +100,7 @@ export default async function AdminPage() {
 
       <section className="px-6 py-8">
         <div className="mx-auto max-w-4xl">
-          <AdminContent rsvps={rsvps} gifts={gifts} />
+          {/* <AdminContent rsvps={rsvps} gifts={gifts} /> */}
         </div>
       </section>
     </main>

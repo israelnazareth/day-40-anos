@@ -1,59 +1,85 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+import { toast } from "sonner";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Controller, useForm } from "react-hook-form";
+
+import { createRSVPAction } from "@/actions/rsvp";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import type { RSVPInput } from "@/types/forms";
+import { Spinner } from "@/components/ui/spinner";
+import { Textarea } from "@/components/ui/textarea";
+import { ConfirmDialog } from "@/components/commons/ConfirmDialog";
+
+import { formatPhone, unformatPhone } from "@/lib/format-phone";
+import { Event } from "@/types/forms";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Digite seu nome completo").max(80),
-  phone: z
-    .string()
-    .trim()
-    .min(8, "Telefone inválido")
-    .max(20, "Telefone muito longo"),
+  phone: z.string().regex(/^\d{10,11}$/, "Telefone inválido"),
   companions: z.number().int().min(0).max(10),
+  attendance: z.boolean(),
   message: z.string().max(300).optional(),
 });
 
+export type RSVPInput = z.infer<typeof schema>;
+
 export type RSVPFormProps = {
-  onSubmit: (data: RSVPInput) => Promise<void> | void;
+  event: Event;
   defaultValues?: Partial<RSVPInput>;
-  isSubmitting?: boolean;
 };
 
-export function RSVPForm({
-  onSubmit,
-  defaultValues,
-  isSubmitting,
-}: RSVPFormProps) {
+export function RSVPForm({ event }: RSVPFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const form = useForm<RSVPInput>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
       phone: "",
       companions: 0,
+      attendance: true,
       message: "",
-      ...defaultValues,
     },
   });
 
+  const onSubmit = async (data: RSVPInput) => {
+    setIsSubmitting(true);
+    try {
+      const eventId = event.id;
+      const result = await createRSVPAction({ eventId, ...data });
+
+      if (result.success) {
+        const firstName = data.name.split(" ")[0];
+        toast.success(`Presença confirmada, ${firstName}!`, {
+          description: "Espero você lá! 💛",
+          position: "bottom-center",
+          duration: 5000,
+        });
+
+        form.reset();
+      }
+    } catch {
+      toast.error(
+        "Ocorreu um erro ao confirmar sua presença. Tente novamente mais tarde.",
+        { position: "bottom-center" },
+      );
+      console.info("[RSVP mock]", data);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <form
-      onSubmit={form.handleSubmit(async (values) => {
-        await onSubmit(values);
-        form.reset({ ...form.getValues(), name: "", phone: "", message: "" });
-      })}
-      className="space-y-5"
-    >
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
       <div className="space-y-2">
-        <Label htmlFor="rsvp-name">Nome completo</Label>
+        <Label htmlFor="rsvp-name">Nome completo *</Label>
         <Input
           id="rsvp-name"
-          placeholder="Como você prefere ser chamado(a)"
+          placeholder="Ex: João da Silva"
           {...form.register("name")}
         />
         {form.formState.errors.name && (
@@ -64,13 +90,22 @@ export function RSVPForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="rsvp-phone">WhatsApp</Label>
-        <Input
-          id="rsvp-phone"
-          type="tel"
-          inputMode="tel"
-          placeholder="(21) 90000-0000"
-          {...form.register("phone")}
+        <Label htmlFor="rsvp-phone">WhatsApp *</Label>
+        <Controller
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <Input
+              id="rsvp-phone"
+              type="tel"
+              inputMode="tel"
+              placeholder="Ex: (21) 90000-0000"
+              value={formatPhone(field.value ?? "")}
+              onChange={({ target }) =>
+                field.onChange(unformatPhone(target.value))
+              }
+            />
+          )}
         />
         {form.formState.errors.phone && (
           <p className="text-xs text-destructive">
@@ -86,7 +121,7 @@ export function RSVPForm({
           type="number"
           min={0}
           max={10}
-          {...form.register("companions")}
+          {...form.register("companions", { valueAsNumber: true })}
         />
       </div>
 
@@ -105,8 +140,16 @@ export function RSVPForm({
         disabled={isSubmitting}
         className="w-full bg-silver-gradient text-black hover:opacity-90"
       >
-        {isSubmitting ? "Enviando..." : "Confirmar presença"}
+        {isSubmitting ? (
+          <>
+            <Spinner data-icon="inline-start" />
+            Enviando...
+          </>
+        ) : (
+          "Confirmar presença"
+        )}
       </Button>
+      {isModalOpen && <ConfirmDialog setIsModalOpen={setIsModalOpen} />}
     </form>
   );
 }
