@@ -28,9 +28,9 @@ export function whatsappLink(message: string): string {
 export function giftWhatsappMessage(params: {
   name: string;
   gift?: string;
-  amount: number;
+  price: number;
 }): string {
-  const valor = params.amount.toLocaleString("pt-BR", {
+  const valor = params.price.toLocaleString("pt-BR", {
     style: "currency",
     currency: "BRL",
   });

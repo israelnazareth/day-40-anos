@@ -81,8 +81,8 @@ export function GiftModal({
               await onSubmit(values);
               const msg = giftWhatsappMessage({
                 name: values.name,
-                gift: values.gift_name ?? undefined,
-                amount: Number(values.amount),
+                gift: values.giftName ?? undefined,
+                price: values.price ?? 0,
               });
               window.open(whatsappLink(msg), "_blank", "noopener");
               toast.success(
@@ -93,8 +93,8 @@ export function GiftModal({
               // Silencioso: a API ainda não existe. Ainda assim abre o WhatsApp.
               const msg = giftWhatsappMessage({
                 name: values.name,
-                gift: values.gift_name ?? undefined,
-                amount: Number(values.amount),
+                gift: values.giftName ?? undefined,
+                price: values.price ?? 0,
               });
               window.open(whatsappLink(msg), "_blank", "noopener");
               toast.message("Abrimos o WhatsApp para envio do comprovante.");

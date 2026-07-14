@@ -16,45 +16,25 @@ import { Button } from "@/components/ui/button";
 import { AdminContent } from "./admin-content";
 import { GiftConfirmationRecord, RSVPRecord } from "@/types/forms";
 
-// mock rsvps and gifts for now
-// const rsvps: RSVPRecord[] = [
-//   {
-//     id: "1",
-//     name: "João Silva",
-//     phone: "+55 11 91234-5678",
-//     companions: 2,
-//     message: "Mal posso esperar para celebrar com vocês!",
-//     created_at: "2024-06-01T12:00:00Z",
-//   },
-//   {
-//     id: "2",
-//     name: "Maria Oliveira",
-//     phone: "+55 21 98765-4321",
-//     companions: 0,
-//     message: "Infelizmente não poderei comparecer.",
-//     created_at: "2024-06-02T15:30:00Z",
-//   },
-// ];
-
 const gifts: GiftConfirmationRecord[] = [
   {
     id: "1",
-    amount: 150,
-    created_at: "2024-06-03T10:00:00Z",
+    price: 150,
+    createdAt: new Date(),
     name: "Carlos Pereira",
     phone: "+55 31 99876-5432",
-    gift_id: "gift_1",
-    gift_name: "Conjunto de panelas",
+    giftId: "gift_1",
+    giftName: "Conjunto de panelas",
     note: "Espero que gostem do presente!",
   },
   {
     id: "2",
-    amount: 200,
-    created_at: "2024-06-04T14:45:00Z",
+    price: 200,
+    createdAt: new Date(),
     name: "Ana Costa",
     phone: "+55 41 91234-5678",
-    gift_id: "gift_2",
-    gift_name: "Jogo de taças de vinho",
+    giftId: "gift_2",
+    giftName: "Jogo de taças de vinho",
     note: "Desejo muitas felicidades ao casal!",
   },
 ];

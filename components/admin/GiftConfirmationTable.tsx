@@ -41,8 +41,8 @@ export function GiftConfirmationTable({
             <TableRow key={r.id}>
               <TableCell className="font-medium">{r.name}</TableCell>
               <TableCell>{r.phone}</TableCell>
-              <TableCell>{r.gift_name ?? "—"}</TableCell>
-              <TableCell className="text-right">{brl(r.amount)}</TableCell>
+              <TableCell>{r.giftName ?? "—"}</TableCell>
+              <TableCell className="text-right">{brl(r.price)}</TableCell>
               <TableCell className="max-w-60 truncate text-muted-foreground">
                 {r.note}
               </TableCell>

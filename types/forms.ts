@@ -4,12 +4,12 @@
 
 export type Gift = {
   id: string;
-  name: string;
-  description: string | null;
-  image: string | null;
-  eventId: string;
   createdAt: Date | null;
-  price: string | null;
+  image: string | null;
+  name: string;
+  price: number;
+  description: string | null;
+  eventId: string;
 };
 
 export type RSVPInput = {
@@ -28,15 +28,15 @@ export type RSVPRecord = RSVPInput & {
 export type GiftConfirmationInput = {
   name: string;
   phone: string;
-  gift_id?: string | null;
-  gift_name?: string | null;
-  amount: number;
+  giftId: string | null;
+  giftName: string | null;
+  price: number;
   note?: string;
 };
 
 export type GiftConfirmationRecord = GiftConfirmationInput & {
   id: string;
-  created_at: string;
+  createdAt: Date;
 };
 
 export type Event = {
@@ -55,4 +55,4 @@ export type Event = {
   whatsapp: string | null;
   createdAt: Date | null;
   updatedAt: Date | null;
-}
+};

@@ -11,9 +11,9 @@ import type { Gift, GiftConfirmationInput } from "@/types/forms";
 const schema = z.object({
   name: z.string().trim().min(2, "Digite seu nome").max(80),
   phone: z.string().trim().min(8, "Telefone inválido").max(20),
-  gift_id: z.string().nullable().optional(),
-  gift_name: z.string().nullable().optional(),
-  amount: z.number().min(1, "Informe o valor"),
+  giftId: z.string().nullable(),
+  giftName: z.string().nullable(),
+  price: z.number().min(1, "Informe o valor"),
   note: z.string().max(300).optional(),
 });
 
@@ -29,9 +29,9 @@ export function GiftForm({ gift, onSubmit, isSubmitting }: GiftFormProps) {
     defaultValues: {
       name: "",
       phone: "",
-      gift_id: gift?.id ?? null,
-      gift_name: gift?.name ?? null,
-      amount: gift?.amount ?? 0,
+      giftId: gift?.id ?? null,
+      giftName: gift?.name ?? null,
+      price: gift?.price ?? 0,
       note: "",
     },
   });
@@ -77,17 +77,17 @@ export function GiftForm({ gift, onSubmit, isSubmitting }: GiftFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="gift-amount">Valor do Pix (R$)</Label>
+        <Label htmlFor="gift-price">Valor do Pix (R$)</Label>
         <Input
-          id="gift-amount"
+          id="gift-price"
           type="number"
           min={1}
           step="0.01"
-          {...form.register("amount")}
+          {...form.register("price")}
         />
-        {form.formState.errors.amount && (
+        {form.formState.errors.price && (
           <p className="text-xs text-destructive">
-            {form.formState.errors.amount.message}
+            {form.formState.errors.price.message}
           </p>
         )}
       </div>
