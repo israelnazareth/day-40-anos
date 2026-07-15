@@ -14,29 +14,30 @@ export type Gift = {
 
 export type RSVPInput = {
   name: string;
-  phone: string;
-  companions: number;
-  attendance: boolean;
-  message?: string;
+  eventId: string;
+  phone: string | null;
+  companions: number | null;
+  attendance: boolean | null;
+  message: string | null;
 };
 
 export type RSVPRecord = RSVPInput & {
   id: string;
-  created_at: string;
+  createdAt: Date | null;
 };
 
-export type GiftConfirmationInput = {
+export type GiftConfirmationUserInput = {
   name: string;
-  phone: string;
-  giftId: string | null;
-  giftName: string | null;
-  price: number;
-  note?: string;
+  eventId: string;
+  giftId: string;
+  phone: string | null;
+  paidValue: string | null;
+  observation: string | null;
 };
 
-export type GiftConfirmationRecord = GiftConfirmationInput & {
+export type GiftConfirmationRecord = GiftConfirmationUserInput & {
   id: string;
-  createdAt: Date;
+  createdAt: Date | null;
 };
 
 export type Event = {
