@@ -42,18 +42,18 @@ export type GiftConfirmationRecord = GiftConfirmationUserInput & {
 
 export type Event = {
   id: string;
-  address: string | null;
+  address: string;
   title: string;
   description: string | null;
   slug: string;
   subtitle: string | null;
   eventDate: Date;
-  venueName: string | null;
-  mapsUrl: string | null;
-  mapsEmbed: string | null;
-  pixKey: string | null;
-  pixName: string | null;
-  whatsapp: string | null;
-  createdAt: Date | null;
-  updatedAt: Date | null;
+  venueName: string;
+  mapsUrl: string;
+  mapsEmbed: string;
+  pixKey: string;
+  pixName: string;
+  whatsapp: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

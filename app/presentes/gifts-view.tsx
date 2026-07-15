@@ -6,13 +6,9 @@ import { toast } from "sonner";
 import { ArrowLeft, Copy } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-// import { Skeleton } from "@/components/ui/skeleton";
 import { GiftCard } from "@/components/gifts/GiftCard";
 import { GiftModal } from "@/components/gifts/GiftModal";
 import { Footer } from "@/components/invite/Footer";
-// import { useGifts } from "@/hooks/useGifts";
-// import { createGiftConfirmation } from "@/lib/api/gifts";
-import { EVENT } from "@/config/event";
 import type { Event, Gift } from "@/types/forms";
 
 export function GiftsView({ event, gifts }: { event: Event; gifts: Gift[] }) {
@@ -22,7 +18,7 @@ export function GiftsView({ event, gifts }: { event: Event; gifts: Gift[] }) {
 
   const copyPix = async () => {
     try {
-      await navigator.clipboard.writeText(EVENT.pixKey);
+      await navigator.clipboard.writeText(event.pixKey);
       toast.success("Chave Pix copiada!");
     } catch {
       toast.error("Não foi possível copiar. Copie manualmente.");
@@ -63,13 +59,13 @@ export function GiftsView({ event, gifts }: { event: Event; gifts: Gift[] }) {
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
               <div className="text-silver-dim text-[0.65rem] uppercase tracking-widest">
-                Chave Pix ({EVENT.pixKeyType})
+                Chave Pix:
               </div>
               <div className="truncate text-sm text-foreground">
-                {EVENT.pixKey}
+                {event.pixKey}
               </div>
               <div className="text-muted-foreground text-xs">
-                Titular: {EVENT.pixHolder}
+                Titular: {event.pixName}
               </div>
             </div>
             <Button
@@ -136,6 +132,7 @@ export function GiftsView({ event, gifts }: { event: Event; gifts: Gift[] }) {
         open={open}
         onOpenChange={setOpen}
         onSubmit={() => void 0}
+        event={event}
         // onSubmit={async (data) => {
         //   await createGiftConfirmation(data);
         // }}

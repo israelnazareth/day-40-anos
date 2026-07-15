@@ -10,10 +10,11 @@ import {
 import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 import { GiftForm } from "@/components/forms/GiftForm";
-import type { Gift, GiftConfirmationUserInput } from "@/types/forms";
-import { EVENT, giftWhatsappMessage, whatsappLink } from "@/config/event";
+import type { Event, Gift, GiftConfirmationUserInput } from "@/types/forms";
+import { giftWhatsappMessage, whatsappLink } from "@/config/event";
 
 type GiftModalProps = {
+  event: Event;
   gift: Gift | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -21,12 +22,12 @@ type GiftModalProps = {
 };
 
 export function GiftModal(props: GiftModalProps) {
-  const { gift, open, onOpenChange, onSubmit } = props;
+  const { event, gift, open, onOpenChange, onSubmit } = props;
   const [isSubmitting, setSubmitting] = useState(false);
 
   const copyPix = async () => {
     try {
-      await navigator.clipboard.writeText(EVENT.pixKey);
+      await navigator.clipboard.writeText(event.pixKey);
       toast.success("Chave Pix copiada!");
     } catch {
       toast.error("Não foi possível copiar. Copie manualmente.");
@@ -78,13 +79,13 @@ export function GiftModal(props: GiftModalProps) {
           <div className="flex items-center justify-between gap-3">
             <div className="min-w-0">
               <div className="text-silver-dim text-[0.65rem] uppercase tracking-widest">
-                Chave Pix ({EVENT.pixKeyType})
+                Chave Pix:
               </div>
               <div className="truncate text-sm text-foreground">
-                {EVENT.pixKey}
+                {event.pixKey}
               </div>
               <div className="text-muted-foreground text-xs">
-                Titular: {EVENT.pixHolder}
+                Titular: {event.pixName}
               </div>
             </div>
             <Button
@@ -100,7 +101,7 @@ export function GiftModal(props: GiftModalProps) {
 
         <GiftForm
           gift={gift ?? undefined}
-          eventId={EVENT.id}
+          eventId={event.id}
           isSubmitting={isSubmitting}
           onSubmit={handleSubmit}
         />
