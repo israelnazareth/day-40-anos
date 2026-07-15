@@ -130,7 +130,7 @@ export function Homepage({ event }: HomepageProps) {
             <p className="text-muted-foreground mt-2 text-center text-sm">
               Precisamos da sua confirmação até 20 de setembro.
             </p>
-            <div className="mt-8 rounded-lg border border-silver bg-card/40 p-5">
+            <div className="mt-8 rounded-lg border border-silver bg-card/40 p-5 shadow-silver-glow">
               <RSVPForm event={event} />
             </div>
           </div>

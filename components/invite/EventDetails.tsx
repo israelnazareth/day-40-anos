@@ -21,7 +21,7 @@ export function EventDetails() {
           {items.map((it) => (
             <div
               key={it.label}
-              className="flex items-center gap-4 rounded-md border border-silver bg-card/40 px-4 py-3"
+              className="flex items-center gap-4 rounded-md border border-silver bg-card/40 px-4 py-3 shadow-silver-glow"
             >
               <it.icon className="h-5 w-5 text-silver" strokeWidth={1.5} />
               <div>
@@ -32,7 +32,7 @@ export function EventDetails() {
               </div>
             </div>
           ))}
-          <div className="rounded-lg border border-silver bg-card/40 p-4">
+          <div className="rounded-lg border border-silver bg-card/40 p-4 shadow-silver-glow">
             <div className="flex items-start gap-3">
               <MapPin
                 className="mt-1 h-6.5 w-6.5 shrink-0 text-silver"
