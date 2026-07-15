@@ -10,29 +10,35 @@ import type { Gift, GiftConfirmationUserInput } from "@/types/forms";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Digite seu nome").max(80),
-  phone: z.string().trim().min(8, "Telefone inválido").max(20),
-  giftId: z.string().nullable(),
-  giftName: z.string().nullable(),
-  price: z.number().min(1, "Informe o valor"),
-  note: z.string().max(300).optional(),
+  phone: z.string().trim().min(8, "Telefone inválido").max(20).nullable(),
+  giftId: z.string(),
+  eventId: z.string(),
+  paidValue: z.string().min(1, "Informe o valor").nullable(),
+  observation: z.string().max(300).nullable(),
 });
 
 export type GiftFormProps = {
   gift?: Gift;
+  eventId: string;
   onSubmit: (data: GiftConfirmationUserInput) => Promise<void> | void;
   isSubmitting?: boolean;
 };
 
-export function GiftForm({ gift, onSubmit, isSubmitting }: GiftFormProps) {
+export function GiftForm({
+  gift,
+  eventId,
+  onSubmit,
+  isSubmitting,
+}: GiftFormProps) {
   const form = useForm<GiftConfirmationUserInput>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
       phone: "",
-      giftId: gift?.id ?? null,
-      giftName: gift?.name ?? null,
-      price: gift?.price ?? 0,
-      note: "",
+      giftId: gift?.id ?? "",
+      eventId,
+      paidValue: gift?.price ? String(gift.price) : "",
+      observation: null,
     },
   });
 
@@ -77,24 +83,28 @@ export function GiftForm({ gift, onSubmit, isSubmitting }: GiftFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="gift-price">Valor do Pix (R$)</Label>
+        <Label htmlFor="gift-paidValue">Valor do Pix (R$)</Label>
         <Input
-          id="gift-price"
+          id="gift-paidValue"
           type="number"
           min={1}
           step="0.01"
-          {...form.register("price")}
+          {...form.register("paidValue")}
         />
-        {form.formState.errors.price && (
+        {form.formState.errors.paidValue && (
           <p className="text-xs text-destructive">
-            {form.formState.errors.price.message}
+            {form.formState.errors.paidValue.message}
           </p>
         )}
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="gift-note">Observação (opcional)</Label>
-        <Textarea id="gift-note" rows={2} {...form.register("note")} />
+        <Label htmlFor="gift-observation">Observação (opcional)</Label>
+        <Textarea
+          id="gift-observation"
+          rows={2}
+          {...form.register("observation")}
+        />
       </div>
 
       <Button

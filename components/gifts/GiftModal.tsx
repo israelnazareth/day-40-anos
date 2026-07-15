@@ -13,17 +13,15 @@ import { GiftForm } from "@/components/forms/GiftForm";
 import type { Gift, GiftConfirmationUserInput } from "@/types/forms";
 import { EVENT, giftWhatsappMessage, whatsappLink } from "@/config/event";
 
-export function GiftModal({
-  gift,
-  open,
-  onOpenChange,
-  onSubmit,
-}: {
+type GiftModalProps = {
   gift: Gift | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSubmit: (data: GiftConfirmationUserInput) => Promise<void> | void;
-}) {
+};
+
+export function GiftModal(props: GiftModalProps) {
+  const { gift, open, onOpenChange, onSubmit } = props;
   const [isSubmitting, setSubmitting] = useState(false);
 
   const copyPix = async () => {
@@ -32,6 +30,34 @@ export function GiftModal({
       toast.success("Chave Pix copiada!");
     } catch {
       toast.error("Não foi possível copiar. Copie manualmente.");
+    }
+  };
+
+  const handleSubmit = async (values: GiftConfirmationUserInput) => {
+    setSubmitting(true);
+    try {
+      await onSubmit(values);
+      const msg = giftWhatsappMessage({
+        name: values.name,
+        gift: gift?.name,
+        price: Number(values.paidValue),
+      });
+      window.open(whatsappLink(msg), "_blank", "noopener");
+      toast.success(
+        "Registrado! Abrimos o WhatsApp para envio do comprovante.",
+      );
+      onOpenChange(false);
+    } catch {
+      const msg = giftWhatsappMessage({
+        name: values.name,
+        gift: gift?.name,
+        price: values.paidValue ? Number(values.paidValue) : 0,
+      });
+      window.open(whatsappLink(msg), "_blank", "noopener");
+      toast.message("Abrimos o WhatsApp para envio do comprovante.");
+      onOpenChange(false);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -74,35 +100,9 @@ export function GiftModal({
 
         <GiftForm
           gift={gift ?? undefined}
+          eventId={EVENT.id}
           isSubmitting={isSubmitting}
-          onSubmit={async (values) => {
-            setSubmitting(true);
-            try {
-              await onSubmit(values);
-              const msg = giftWhatsappMessage({
-                name: values.name,
-                gift: values.giftName ?? undefined,
-                price: values.price ?? 0,
-              });
-              window.open(whatsappLink(msg), "_blank", "noopener");
-              toast.success(
-                "Registrado! Abrimos o WhatsApp para envio do comprovante.",
-              );
-              onOpenChange(false);
-            } catch (err) {
-              // Silencioso: a API ainda não existe. Ainda assim abre o WhatsApp.
-              const msg = giftWhatsappMessage({
-                name: values.name,
-                gift: values.giftName ?? undefined,
-                price: values.price ?? 0,
-              });
-              window.open(whatsappLink(msg), "_blank", "noopener");
-              toast.message("Abrimos o WhatsApp para envio do comprovante.");
-              onOpenChange(false);
-            } finally {
-              setSubmitting(false);
-            }
-          }}
+          onSubmit={handleSubmit}
         />
       </DialogContent>
     </Dialog>

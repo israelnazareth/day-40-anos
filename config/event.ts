@@ -1,6 +1,7 @@
 // Configurações centrais do evento. Edite aqui para atualizar todo o site.
 
 export const EVENT = {
+  id: "day-40-anos",
   honoree: "Day Nazareth",
   age: 40,
   date: "2026-10-02T20:00:00-03:00", // ISO com fuso -03:00
