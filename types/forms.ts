@@ -4,10 +4,10 @@
 
 export type Gift = {
   id: string;
-  createdAt: Date | null;
-  image: string | null;
+  createdAt: Date;
+  image: string;
   name: string;
-  price: number;
+  price: string;
   description: string | null;
   eventId: string;
 };

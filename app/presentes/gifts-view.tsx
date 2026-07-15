@@ -47,10 +47,10 @@ export function GiftsView({ event, gifts }: { event: Event; gifts: Gift[] }) {
 
       <section className="px-6 pt-6 pb-4 text-center">
         <p className="text-silver-dim mb-3 text-xs uppercase tracking-[0.4em]">
-          com carinho
+          Lista de presentes
         </p>
         <h1 className="text-silver-gradient font-display text-4xl">
-          Lista de presentes
+          Presenteie a Day!
         </h1>
         <p className="text-muted-foreground mx-auto mt-4 max-w-md text-sm">
           Sua presença já é o maior presente. Mas se quiser mimar a Day, escolha

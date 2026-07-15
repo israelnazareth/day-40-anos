@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { formatValueToBRL } from "@/lib/format-currency";
 import type { Gift } from "@/types/forms";
 import Image from "next/image";
 
@@ -36,7 +37,7 @@ export function GiftCard({
             Valor sugerido
           </div>
           <div className="text-silver-gradient font-display text-2xl">
-            {gift.price}
+            {formatValueToBRL(gift.price)}
           </div>
         </div>
         <Button

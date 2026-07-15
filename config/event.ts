@@ -18,7 +18,7 @@ export const EVENT = {
   whatsappLabel: "+55 21 98708-6134",
   // TODO: preencher com a chave Pix real da Day
   pixKey: "+55 21 98708-6134",
-  pixKeyType: "A definir",
+  pixKeyType: "Telefone",
   pixHolder: "Day",
 } as const;
 

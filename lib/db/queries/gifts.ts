@@ -7,8 +7,5 @@ export async function getGifts(eventId: string): Promise<Gift[]> {
     orderBy: (gift, { asc }) => [asc(gift.name)],
   });
 
-  return gifts.map((gift) => ({
-    ...gift,
-    price: gift.price ? parseFloat(gift.price) : 0,
-  }));
+  return gifts;
 }
