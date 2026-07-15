@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Copy } from "lucide-react";
 import { GiftForm } from "@/components/forms/GiftForm";
-import type { Gift, GiftConfirmationInput } from "@/types/forms";
+import type { Gift, GiftConfirmationUserInput } from "@/types/forms";
 import { EVENT, giftWhatsappMessage, whatsappLink } from "@/config/event";
 
 export function GiftModal({
@@ -22,7 +22,7 @@ export function GiftModal({
   gift: Gift | null;
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onSubmit: (data: GiftConfirmationInput) => Promise<void> | void;
+  onSubmit: (data: GiftConfirmationUserInput) => Promise<void> | void;
 }) {
   const [isSubmitting, setSubmitting] = useState(false);
 

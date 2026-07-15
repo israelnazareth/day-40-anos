@@ -2,10 +2,6 @@ import { Button } from "@/components/ui/button";
 import type { Gift } from "@/types/forms";
 import Image from "next/image";
 
-function brl(v: number) {
-  return v.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-
 export function GiftCard({
   gift,
   onSelect,

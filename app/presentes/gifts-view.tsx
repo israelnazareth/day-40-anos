@@ -15,34 +15,7 @@ import { Footer } from "@/components/invite/Footer";
 import { EVENT } from "@/config/event";
 import type { Event, Gift } from "@/types/forms";
 
-// const gifts: Gift[] = [
-//   {
-//     id: "1",
-//     name: "Presente 1",
-//     description: "Descrição do presente 1",
-//     amount: 100,
-//     image_url:
-//       "https://images.unsplash.com/photo-1773332585687-85beb4da71ab?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-//     claimed: false,
-//   },
-//   {
-//     id: "2",
-//     name: "Presente 2",
-//     description: "Descrição do presente 2",
-//     amount: 100,
-//     image_url:
-//       "https://images.unsplash.com/photo-1773332585687-85beb4da71ab?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-//     claimed: false,
-//   },
-// ];
-
-export function PresentesView({
-  event,
-  gifts,
-}: {
-  event: Event;
-  gifts: Gift[];
-}) {
+export function GiftsView({ event, gifts }: { event: Event; gifts: Gift[] }) {
   // const { data, isLoading, isError, refetch } = useGifts();
   const [selected, setSelected] = useState<Gift | null>(null);
   const [open, setOpen] = useState(false);

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import type { Gift, GiftConfirmationInput } from "@/types/forms";
+import type { Gift, GiftConfirmationUserInput } from "@/types/forms";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Digite seu nome").max(80),
@@ -19,12 +19,12 @@ const schema = z.object({
 
 export type GiftFormProps = {
   gift?: Gift;
-  onSubmit: (data: GiftConfirmationInput) => Promise<void> | void;
+  onSubmit: (data: GiftConfirmationUserInput) => Promise<void> | void;
   isSubmitting?: boolean;
 };
 
 export function GiftForm({ gift, onSubmit, isSubmitting }: GiftFormProps) {
-  const form = useForm<GiftConfirmationInput>({
+  const form = useForm<GiftConfirmationUserInput>({
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",

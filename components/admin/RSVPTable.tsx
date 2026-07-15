@@ -6,6 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { formatPhone } from "@/lib/format-phone";
 import type { RSVPRecord } from "@/types/forms";
 
 export function RSVPTable({ data }: { data: RSVPRecord[] }) {
@@ -27,7 +28,7 @@ export function RSVPTable({ data }: { data: RSVPRecord[] }) {
           {data.map((r) => (
             <TableRow key={r.id}>
               <TableCell className="font-medium">{r.name}</TableCell>
-              <TableCell>{r.phone}</TableCell>
+              <TableCell>{formatPhone(r.phone ?? "")}</TableCell>
               <TableCell className="text-right">{r.companions}</TableCell>
               <TableCell className="max-w-[240px] truncate text-muted-foreground">
                 {r.message}

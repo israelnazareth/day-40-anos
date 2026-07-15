@@ -10,10 +10,10 @@ import { toast } from "sonner";
 
 export function AdminContent({
   rsvps,
-  gifts,
+  giftConfirmations,
 }: {
   rsvps: RSVPRecord[];
-  gifts: GiftConfirmationRecord[];
+  giftConfirmations: GiftConfirmationRecord[];
 }) {
   return (
     <Tabs defaultValue="rsvps">
@@ -48,7 +48,7 @@ export function AdminContent({
               ) : gifts.isError || !gifts.data ? (
                 <GiftConfirmationTable data={[]} />
               ) : ( */}
-        <GiftConfirmationTable data={gifts} />
+        <GiftConfirmationTable giftConfirmations={giftConfirmations} />
         {/* )} */}
       </TabsContent>
     </Tabs>
