@@ -1,4 +1,6 @@
-import { useForm } from "react-hook-form";
+"use client";
+
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
@@ -7,6 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import type { Gift, GiftConfirmationUserInput } from "@/types/forms";
+import { useState } from "react";
+import { giftWhatsappMessage, whatsappLink } from "@/config/event";
+import { createGiftConfirmationAction } from "@/actions/gift-confirmations";
+import { toast } from "sonner";
+import { formatPhone, unformatPhone } from "@/lib/format-phone";
 
 const schema = z.object({
   name: z.string().trim().min(2, "Digite seu nome").max(80),
@@ -20,16 +27,12 @@ const schema = z.object({
 export type GiftFormProps = {
   gift?: Gift;
   eventId: string;
-  onSubmit: (data: GiftConfirmationUserInput) => Promise<void> | void;
-  isSubmitting?: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export function GiftForm({
-  gift,
-  eventId,
-  onSubmit,
-  isSubmitting,
-}: GiftFormProps) {
+export function GiftForm({ gift, eventId, setOpen }: GiftFormProps) {
+  const [isSubmitting, setSubmitting] = useState(false);
+
   const form = useForm<GiftConfirmationUserInput>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -42,11 +45,37 @@ export function GiftForm({
     },
   });
 
+  const handleSubmit = async (values: GiftConfirmationUserInput) => {
+    setSubmitting(true);
+    try {
+      await createGiftConfirmationAction(values);
+
+      const msg = giftWhatsappMessage({
+        name: values.name,
+        gift: gift?.name,
+        price: Number(values.paidValue),
+      });
+      window.open(whatsappLink(msg), "_blank", "noopener");
+      toast.success(
+        "Registrado! Abrimos o WhatsApp para envio do comprovante.",
+      );
+      setOpen(false);
+    } catch {
+      const msg = giftWhatsappMessage({
+        name: values.name,
+        gift: gift?.name,
+        price: values.paidValue ? Number(values.paidValue) : 0,
+      });
+      window.open(whatsappLink(msg), "_blank", "noopener");
+      toast.message("Abrimos o WhatsApp para envio do comprovante.");
+      setOpen(false);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
-    <form
-      onSubmit={form.handleSubmit((values) => onSubmit(values))}
-      className="space-y-4"
-    >
+    <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
       {gift && (
         <div className="rounded-md border border-silver bg-secondary/40 px-3 py-2 text-sm">
           <div className="text-muted-foreground text-xs uppercase tracking-wider">
@@ -57,7 +86,7 @@ export function GiftForm({
       )}
 
       <div className="space-y-2">
-        <Label htmlFor="gift-name">Seu nome</Label>
+        <Label htmlFor="gift-name">Seu nome *</Label>
         <Input id="gift-name" {...form.register("name")} />
         {form.formState.errors.name && (
           <p className="text-xs text-destructive">
@@ -67,7 +96,29 @@ export function GiftForm({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="gift-phone">WhatsApp</Label>
+        <Label htmlFor="gift-phone">WhatsApp *</Label>
+        <Controller
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <Input
+              id="gift-phone"
+              type="tel"
+              inputMode="tel"
+              placeholder="Ex: (21) 90000-0000"
+              value={formatPhone(field.value ?? "")}
+              onChange={({ target }) =>
+                field.onChange(unformatPhone(target.value))
+              }
+            />
+          )}
+        />
+        {form.formState.errors.phone && (
+          <p className="text-xs text-destructive">
+            {form.formState.errors.phone.message}
+          </p>
+        )}
+        {/* <Label htmlFor="gift-phone">WhatsApp</Label>
         <Input
           id="gift-phone"
           type="tel"
@@ -79,7 +130,7 @@ export function GiftForm({
           <p className="text-xs text-destructive">
             {form.formState.errors.phone.message}
           </p>
-        )}
+        )} */}
       </div>
 
       <div className="space-y-2">

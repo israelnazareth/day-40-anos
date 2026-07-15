@@ -17,13 +17,11 @@ type GiftModalProps = {
   event: Event;
   gift: Gift | null;
   open: boolean;
-  onOpenChange: (open: boolean) => void;
-  onSubmit: (data: GiftConfirmationUserInput) => Promise<void> | void;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export function GiftModal(props: GiftModalProps) {
-  const { event, gift, open, onOpenChange, onSubmit } = props;
-  const [isSubmitting, setSubmitting] = useState(false);
+  const { event, gift, open, setOpen } = props;
 
   const copyPix = async () => {
     try {
@@ -34,36 +32,8 @@ export function GiftModal(props: GiftModalProps) {
     }
   };
 
-  const handleSubmit = async (values: GiftConfirmationUserInput) => {
-    setSubmitting(true);
-    try {
-      await onSubmit(values);
-      const msg = giftWhatsappMessage({
-        name: values.name,
-        gift: gift?.name,
-        price: Number(values.paidValue),
-      });
-      window.open(whatsappLink(msg), "_blank", "noopener");
-      toast.success(
-        "Registrado! Abrimos o WhatsApp para envio do comprovante.",
-      );
-      onOpenChange(false);
-    } catch {
-      const msg = giftWhatsappMessage({
-        name: values.name,
-        gift: gift?.name,
-        price: values.paidValue ? Number(values.paidValue) : 0,
-      });
-      window.open(whatsappLink(msg), "_blank", "noopener");
-      toast.message("Abrimos o WhatsApp para envio do comprovante.");
-      onOpenChange(false);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="max-h-[90svh] overflow-y-auto border-silver bg-card">
         <DialogHeader>
           <DialogTitle className="text-silver-gradient font-display text-2xl">
@@ -102,8 +72,7 @@ export function GiftModal(props: GiftModalProps) {
         <GiftForm
           gift={gift ?? undefined}
           eventId={event.id}
-          isSubmitting={isSubmitting}
-          onSubmit={handleSubmit}
+          setOpen={setOpen}
         />
       </DialogContent>
     </Dialog>

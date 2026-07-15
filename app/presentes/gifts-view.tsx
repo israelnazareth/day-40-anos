@@ -130,8 +130,7 @@ export function GiftsView({ event, gifts }: { event: Event; gifts: Gift[] }) {
       <GiftModal
         gift={selected}
         open={open}
-        onOpenChange={setOpen}
-        onSubmit={() => void 0}
+        setOpen={setOpen}
         event={event}
         // onSubmit={async (data) => {
         //   await createGiftConfirmation(data);
