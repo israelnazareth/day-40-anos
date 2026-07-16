@@ -8,10 +8,10 @@ import {
 } from "@/components/ui/table";
 import { formatValueToBRL } from "@/lib/format-currency";
 import { formatPhone } from "@/lib/format-phone";
-import type { GiftConfirmationRecord } from "@/types/forms";
+import { GiftConfirmationsRecord } from "@/lib/db/schema";
 
 type GiftConfirmationTableProps = {
-  giftConfirmations: GiftConfirmationRecord[];
+  giftConfirmations: GiftConfirmationsRecord[];
 };
 
 export function GiftConfirmationTable(props: GiftConfirmationTableProps) {
@@ -38,16 +38,20 @@ export function GiftConfirmationTable(props: GiftConfirmationTableProps) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {giftConfirmations.map((user) => (
-            <TableRow key={user.id}>
-              <TableCell className="font-medium">{user.name}</TableCell>
-              <TableCell>{formatPhone(user.phone ?? "—")}</TableCell>
-              <TableCell>{user.name ?? "—"}</TableCell>
+          {giftConfirmations.map((giftConfirmation) => (
+            <TableRow key={giftConfirmation.id}>
+              <TableCell className="font-medium">
+                {giftConfirmation.name}
+              </TableCell>
+              <TableCell>
+                {formatPhone(giftConfirmation.phone ?? "—")}
+              </TableCell>
+              <TableCell>{giftConfirmation.name ?? "—"}</TableCell>
               <TableCell className="text-right">
-                {formatValueToBRL(user.paidValue ?? "—")}
+                {formatValueToBRL(giftConfirmation.paidValue ?? "—")}
               </TableCell>
               <TableCell className="max-w-60 truncate text-muted-foreground">
-                {user.observation}
+                {giftConfirmation.observation}
               </TableCell>
             </TableRow>
           ))}

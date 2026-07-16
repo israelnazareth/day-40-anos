@@ -4,7 +4,8 @@ import { GiftConfirmationTable } from "@/components/admin/GiftConfirmationTable"
 import { RSVPTable } from "@/components/admin/RSVPTable";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GiftConfirmationRecord, RSVPRecord } from "@/types/forms";
+import { GiftConfirmationsRecord } from "@/lib/db/schema";
+import { RSVPRecord } from "@/types/forms";
 import { Download } from "lucide-react";
 import { toast } from "sonner";
 
@@ -13,14 +14,18 @@ export function AdminContent({
   giftConfirmations,
 }: {
   rsvps: RSVPRecord[];
-  giftConfirmations: GiftConfirmationRecord[];
+  giftConfirmations: GiftConfirmationsRecord[];
 }) {
   return (
     <Tabs defaultValue="rsvps">
       <div className="flex items-center justify-between gap-3">
         <TabsList className="bg-secondary/60">
-          <TabsTrigger value="rsvps">Confirmações</TabsTrigger>
-          <TabsTrigger value="gifts">Presentes</TabsTrigger>
+          <TabsTrigger className="cursor-pointer p-3" value="rsvps">
+            Confirmações
+          </TabsTrigger>
+          <TabsTrigger className="cursor-pointer p-3" value="gifts">
+            Presentes
+          </TabsTrigger>
         </TabsList>
         <Button
           size="sm"
@@ -38,7 +43,7 @@ export function AdminContent({
               ) : rsvps.isError || !rsvps.data ? (
                 <RSVPTable data={[]} />
               ) : ( */}
-        <RSVPTable data={rsvps} />
+        <RSVPTable rsvps={rsvps} />
         {/* )} */}
       </TabsContent>
 

@@ -9,10 +9,11 @@ import {
 import { formatPhone } from "@/lib/format-phone";
 import type { RSVPRecord } from "@/types/forms";
 
-export function RSVPTable({ data }: { data: RSVPRecord[] }) {
-  if (data.length === 0) {
+export function RSVPTable({ rsvps }: { rsvps: RSVPRecord[] }) {
+  if (rsvps.length === 0) {
     return <EmptyRow message="Nenhuma confirmação recebida ainda." />;
   }
+
   return (
     <div className="overflow-x-auto rounded-md border border-silver">
       <Table>
@@ -25,13 +26,13 @@ export function RSVPTable({ data }: { data: RSVPRecord[] }) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {data.map((r) => (
-            <TableRow key={r.id}>
-              <TableCell className="font-medium">{r.name}</TableCell>
-              <TableCell>{formatPhone(r.phone ?? "")}</TableCell>
-              <TableCell className="text-right">{r.companions}</TableCell>
+          {rsvps.map((rsvp) => (
+            <TableRow key={rsvp.id}>
+              <TableCell className="font-medium">{rsvp.name}</TableCell>
+              <TableCell>{formatPhone(rsvp.phone ?? "")}</TableCell>
+              <TableCell className="text-right">{rsvp.companions}</TableCell>
               <TableCell className="max-w-[240px] truncate text-muted-foreground">
-                {r.message}
+                {rsvp.message || "-"}
               </TableCell>
             </TableRow>
           ))}
