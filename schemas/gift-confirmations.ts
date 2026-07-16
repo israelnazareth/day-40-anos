@@ -7,11 +7,11 @@ export const giftConfirmationSchema = z.object({
 
   name: z.string().trim().min(3, "Informe seu nome"),
 
-  phone: z.string().trim().min(10, "Telefone inválido").optional(),
+  phone: z.string().trim().min(10, "Telefone inválido"),
 
-  paidValue: z.string().optional(),
+  paidValue: z.string(),
 
-  observation: z.string().optional(),
+  observation: z.string().nullable().optional(),
 });
 
 export type GiftConfirmationInput = z.infer<typeof giftConfirmationSchema>;

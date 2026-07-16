@@ -127,15 +127,7 @@ export function GiftsView({ event, gifts }: { event: Event; gifts: Gift[] }) {
         </div>
       </section>
 
-      <GiftModal
-        gift={selected}
-        open={open}
-        setOpen={setOpen}
-        event={event}
-        // onSubmit={async (data) => {
-        //   await createGiftConfirmation(data);
-        // }}
-      />
+      <GiftModal gift={selected} open={open} setOpen={setOpen} event={event} />
 
       <Footer />
     </main>

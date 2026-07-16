@@ -30,9 +30,10 @@ export type GiftConfirmationUserInput = {
   name: string;
   eventId: string;
   giftId: string;
-  phone: string | null;
-  paidValue: string | null;
+  phone: string;
+  paidValue: string;
   observation: string | null;
+  proofSent: boolean;
 };
 
 export type GiftConfirmationRecord = GiftConfirmationUserInput & {

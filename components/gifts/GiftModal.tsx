@@ -1,17 +1,40 @@
-import { useState } from "react";
+"use client";
+
+import { createGiftConfirmationAction } from "@/actions/gift-confirmations";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { formatValueToBRL } from "@/lib/format-currency";
+import { formatPhone, unformatPhone } from "@/lib/format-phone";
+import { GiftConfirmationInput } from "@/schemas/gift-confirmations";
+import type { Event, Gift } from "@/types/forms";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Copy, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import QRCodePix from "react-qrcode-pix";
 import { toast } from "sonner";
+import { z } from "zod";
+import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Copy } from "lucide-react";
-import { GiftForm } from "@/components/forms/GiftForm";
-import type { Event, Gift, GiftConfirmationUserInput } from "@/types/forms";
-import { giftWhatsappMessage, whatsappLink } from "@/config/event";
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+  FieldTitle,
+} from "../ui/field";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+
+const FormSchema = z.object({
+  name: z.string().trim().min(2, "Digite seu nome").max(80),
+  phone: z.string().trim().min(8, "Telefone inválido").max(20),
+  observation: z.string().max(300).nullable(),
+  proofSent: z.boolean().refine((val) => val === true, {
+    message: "Marque se já enviou o comprovante",
+  }),
+});
+
+type GiftFormValues = z.infer<typeof FormSchema>;
 
 type GiftModalProps = {
   event: Event;
@@ -22,58 +45,201 @@ type GiftModalProps = {
 
 export function GiftModal(props: GiftModalProps) {
   const { event, gift, open, setOpen } = props;
+  const [copyPastePix, setCopyPastePix] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
 
-  const copyPix = async () => {
+  const now = useMemo(() => new Date().getTime().toString(), []);
+
+  const form = useForm<GiftFormValues>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      name: "",
+      phone: "",
+      observation: null,
+      proofSent: false,
+    },
+  });
+
+  const copyPixCode = async () => {
     try {
-      await navigator.clipboard.writeText(event.pixKey);
-      toast.success("Chave Pix copiada!");
+      await navigator.clipboard.writeText(copyPastePix);
+      toast.success(
+        "Código Pix copiado! Agora basta colar no aplicativo do seu banco.",
+      );
     } catch {
       toast.error("Não foi possível copiar. Copie manualmente.");
     }
   };
 
-  return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent className="max-h-[90svh] overflow-y-auto border-silver bg-card">
-        <DialogHeader>
-          <DialogTitle className="text-silver-gradient font-display text-2xl">
-            Presentear com Pix
-          </DialogTitle>
-          <DialogDescription>
-            Faça o Pix para a chave abaixo, preencha o formulário e envie o
-            comprovante pelo WhatsApp da Day.
-          </DialogDescription>
-        </DialogHeader>
+  const handleSubmit = async (values: GiftFormValues) => {
+    setSubmitting(true);
+    try {
+      const payload: GiftConfirmationInput = {
+        eventId: event.id,
+        giftId: gift!.id,
+        paidValue: gift!.price,
+        name: values.name,
+        phone: values.phone,
+        observation: values.observation || null,
+      };
 
-        <div className="space-y-2 rounded-md border border-silver bg-secondary/40 p-3">
-          <div className="flex items-center justify-between gap-3">
-            <div className="min-w-0">
-              <div className="text-silver-dim text-[0.65rem] uppercase tracking-widest">
-                Chave Pix:
+      await createGiftConfirmationAction(payload);
+
+      const userName = values.name.split(" ")[0];
+
+      toast.success(`Registrado! Muito obrigada pelo presente, ${userName}!`);
+
+      setOpen(false);
+
+      form.reset();
+    } catch {
+      toast.error("Erro ao registrar. Tente novamente.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleOpenChange = (isOpen: boolean) => {
+    setOpen(isOpen);
+
+    if (!isOpen) form.reset();
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="max-h-[90svh] overflow-y-auto border-border bg-card p-0">
+        <div className="p-4 pt-10">
+          <p className="font-body text-[9px] uppercase tracking-[0.35em] text-primary/70">
+            Pagamento via PIX
+          </p>
+          <h3 className="mt-0.5 font-display text-2xl leading-tight text-deep">
+            {gift?.name}
+          </h3>
+          <p className="font-display text-lg text-ocean">
+            {formatValueToBRL(gift?.price ?? 0)}
+          </p>
+
+          <div className="mt-3 rounded-xl border border-border bg-linear-to-br from-foam/60 to-secondary/60 p-3">
+            <div className="flex items-center gap-3">
+              <div className="shrink-0">
+                <div className="bg-white p-1.5 rounded-lg shadow-sm">
+                  <QRCodePix
+                    pixkey={event.pixKey}
+                    merchant={event.pixName}
+                    city="Rio de Janeiro"
+                    code={"RQP" + now}
+                    amount={Number(gift?.price ?? 0)}
+                    onLoad={setCopyPastePix}
+                    size={120}
+                  />
+                </div>
               </div>
-              <div className="truncate text-sm text-foreground">
-                {event.pixKey}
-              </div>
-              <div className="text-muted-foreground text-xs">
-                Titular: {event.pixName}
+              <div className="min-w-0 flex-1 text-left">
+                <p className="font-body text-[9px] uppercase tracking-[0.25em] text-muted-foreground">
+                  Chave Celular
+                </p>
+                <p className="font-sans text-sm text-deep">{event.pixKey}</p>
+                <p className="font-body text-[10px] text-muted-foreground">
+                  {event.pixName}
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="mt-2 w-full inline-flex items-center justify-center gap-1.5 border-silver bg-transparent"
+                  onClick={copyPixCode}
+                >
+                  <Copy className="mr-1 h-4 w-4" /> Copiar Pix
+                </Button>
               </div>
             </div>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={copyPix}
-              className="border-silver bg-transparent"
-            >
-              <Copy className="mr-1 h-4 w-4" /> Copiar
-            </Button>
           </div>
-        </div>
 
-        <GiftForm
-          gift={gift ?? undefined}
-          eventId={event.id}
-          setOpen={setOpen}
-        />
+          <form
+            onSubmit={form.handleSubmit(handleSubmit)}
+            className="mt-3 space-y-2"
+          >
+            <h4 className="font-sans text-sm">
+              Após pagar, registre seu presente:
+            </h4>
+            <Input
+              placeholder="Seu nome completo"
+              maxLength={120}
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 font-body text-xs text-deep outline-none focus:border-ocean focus:ring-1 focus:ring-ocean/20"
+              type="text"
+              {...form.register("name")}
+            />
+            {form.formState.errors.name && (
+              <p className="text-xs text-destructive">
+                {form.formState.errors.name.message}
+              </p>
+            )}
+            <Controller
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <Input
+                  placeholder="Telefone (WhatsApp)"
+                  maxLength={30}
+                  className="w-full rounded-lg border border-border bg-background px-3 py-2 font-body text-xs text-deep outline-none focus:border-ocean focus:ring-1 focus:ring-ocean/20"
+                  type="tel"
+                  value={formatPhone(field.value ?? "")}
+                  onChange={({ target }) =>
+                    field.onChange(unformatPhone(target.value))
+                  }
+                />
+              )}
+            />
+            {form.formState.errors.phone && (
+              <p className="text-xs text-destructive">
+                {form.formState.errors.phone.message}
+              </p>
+            )}
+
+            <Textarea
+              placeholder="Mensagem (opcional)"
+              maxLength={1000}
+              rows={2}
+              className="w-full rounded-lg border border-border bg-background px-3 py-2 font-body text-xs text-deep outline-none focus:border-ocean focus:ring-1 focus:ring-ocean/20 resize-none"
+              {...form.register("observation")}
+            />
+
+            <FieldLabel className="cursor-pointer">
+              <Field orientation="horizontal">
+                <Controller
+                  control={form.control}
+                  name="proofSent"
+                  render={({ field }) => (
+                    <Checkbox
+                      id="proofSent"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  )}
+                />
+                <FieldContent>
+                  <FieldTitle className="text-xs">
+                    Já enviei o comprovante pelo WhatsApp
+                  </FieldTitle>
+                  <FieldDescription className="text-xs">
+                    Marque após enviar o print para +55 (21) 98708-6134
+                  </FieldDescription>
+                </FieldContent>
+              </Field>
+            </FieldLabel>
+            {form.formState.errors.proofSent && (
+              <p className="text-xs text-destructive">
+                {form.formState.errors.proofSent.message}
+              </p>
+            )}
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="bg-silver-gradient w-full text-black hover:brightness-75 cursor-pointer p-5 text-md"
+            >
+              <Sparkles className="h-3.5 w-3.5" /> Confirmar presente
+            </Button>
+          </form>
+        </div>
       </DialogContent>
     </Dialog>
   );

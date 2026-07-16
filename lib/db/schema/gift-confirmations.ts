@@ -1,10 +1,4 @@
-import {
-  numeric,
-  pgTable,
-  text,
-  timestamp,
-  uuid,
-} from "drizzle-orm/pg-core";
+import { numeric, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { events } from "./events";
 import { gifts } from "./gifts";
 
@@ -34,3 +28,5 @@ export const giftConfirmations = pgTable("gift_confirmations", {
     mode: "date",
   }).defaultNow(),
 });
+
+export type GiftConfirmationsRecord = typeof giftConfirmations.$inferSelect;
