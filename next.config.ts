@@ -7,8 +7,13 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*unsplash.com*",
       },
+      {
+        protocol: "https",
+        hostname: "sonhodospes.vtexassets.com",
+      },
     ],
   },
+  allowedDevOrigins: ["xanthochroid-homelier-malaya.ngrok-free.dev"],
 };
 
 export default nextConfig;
