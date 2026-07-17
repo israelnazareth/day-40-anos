@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { EVENT } from "@/config/event";
 import Day from "@/public/day.webp";
+import Name from "@/public/name.png";
 import Logo from "@/public/logo-no-bg.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,9 +25,16 @@ export function Hero() {
             Convite especial • 02 . 10 . 2026
           </p>
 
-          <h1 className="font-display text-5xl font-semibold sm:text-6xl">
+          {/* <h1 className="font-display text-5xl font-semibold sm:text-6xl">
             <span className="text-silver-gradient">{EVENT.honoree}</span>
-          </h1>
+          </h1> */}
+
+          <Image
+            src={Name}
+            alt="Name"
+            className="mt-6 rounded-2xl m-auto w-full max-w-xs"
+            loading="eager"
+          />
 
           <Image
             src={Day}
@@ -42,7 +50,7 @@ export function Hero() {
             loading="eager"
           />
 
-          <div className="mb-6 flex justify-between items-center">
+          {/* <div className="mb-6 flex justify-between items-center">
             <div className="divider-silver w-16 mt-12" />
 
             <span className="text-silver-gradient font-display text-[7rem] leading-none font-bold sm:text-[9rem]">
@@ -57,7 +65,7 @@ export function Hero() {
             suppressHydrationWarning
           >
             quarenta anos
-          </p>
+          </p> */}
 
           <div className="mt-10 space-y-1 text-sm uppercase tracking-[0.3em] text-silver">
             <div>{EVENT.dateLabel}</div>
