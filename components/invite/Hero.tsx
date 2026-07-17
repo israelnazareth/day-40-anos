@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { EVENT } from "@/config/event";
-import Day from "@/public/day.jpg";
+import Day from "@/public/day.webp";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "../commons/Reveal";
