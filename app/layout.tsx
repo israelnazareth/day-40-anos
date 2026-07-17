@@ -21,8 +21,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  // metadataBase: new URL("https://day-40-anos.vercel.app"),
-  metadataBase: new URL("https://xanthochroid-homelier-malaya.ngrok-free.dev"),
+  metadataBase: new URL("https://day-40-anos.vercel.app"),
   openGraph: {
     title: "Day Nazareth • 40 anos",
     description:

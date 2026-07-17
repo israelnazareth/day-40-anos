@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { EVENT } from "@/config/event";
 import Day from "@/public/day.webp";
+import Logo from "@/public/logo-no-bg.png";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "../commons/Reveal";
@@ -31,6 +32,13 @@ export function Hero() {
             src={Day}
             alt="Day"
             className="mt-6 rounded-2xl m-auto w-full max-w-xs"
+            loading="eager"
+          />
+
+          <Image
+            src={Logo}
+            alt="Logo"
+            className="mt-6 rounded-2xl m-auto w-48"
             loading="eager"
           />
 
