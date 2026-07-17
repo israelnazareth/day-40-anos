@@ -3,6 +3,7 @@ import { ArrowLeft, Lock } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { AdminContent } from "./admin-content";
+import { LogoutButton } from "@/components/admin/LogoutButton";
 import { getEventBySlug } from "@/lib/db/queries/events";
 import { getRSVPs } from "@/lib/db/queries/rsvps";
 import { getGiftConfirmations } from "@/lib/db/queries/gift-confirmations";
@@ -17,7 +18,7 @@ export default async function AdminPage() {
   return (
     <main className="min-h-screen bg-background">
       <header className="px-6 pt-8">
-        <div className="mx-auto max-w-4xl">
+        <div className="mx-auto max-w-4xl flex items-center justify-between">
           <Button
             variant="ghost"
             size="sm"
@@ -27,6 +28,7 @@ export default async function AdminPage() {
               <ArrowLeft className="mr-1 h-4 w-4" /> Voltar ao convite
             </Link>
           </Button>
+          <LogoutButton />
         </div>
       </header>
 
@@ -41,9 +43,6 @@ export default async function AdminPage() {
           <h1 className="text-silver-gradient mt-2 font-display text-4xl">
             Painel
           </h1>
-          <p className="text-muted-foreground mt-2 text-sm">
-            Autenticação será plugada ao Supabase na integração com Next.js.
-          </p>
         </div>
       </section>
 

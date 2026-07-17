@@ -21,10 +21,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://day-40-anos.vercel.app"),
+  // metadataBase: new URL("https://day-40-anos.vercel.app"),
+  metadataBase: new URL("https://xanthochroid-homelier-malaya.ngrok-free.dev"),
   openGraph: {
-    title: "Convite Especial • Day Nazareth",
-    description: "Day Nazareth • 40 anos - 02 . 10 . 2026",
+    title: "Day Nazareth • 40 anos",
+    description:
+      "Convite Especial para os 40 anos da Day • Dia 02 de Outubro de 2026 • Espaço Zarifi - Rua das Margaridas, 335 — Vila Valqueire, Rio de Janeiro",
     images: [
       {
         url: "/og-image.webp",

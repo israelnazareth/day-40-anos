@@ -234,7 +234,7 @@ export function GiftModal(props: GiftModalProps) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="bg-silver-gradient w-full text-black hover:brightness-75 cursor-pointer p-5 text-md"
+              className="bg-silver-gradient w-full text-black hover:brightness-75 p-5 text-md"
             >
               <Sparkles className="h-3.5 w-3.5" /> Confirmar presente
             </Button>

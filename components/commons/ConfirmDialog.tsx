@@ -29,14 +29,10 @@ export function ConfirmDialog({ setIsModalOpen }: ConfirmDialogProps) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <Button
-            variant="outline"
-            onClick={() => setIsModalOpen(false)}
-            className="cursor-pointer"
-          >
+          <Button variant="outline" onClick={() => setIsModalOpen(false)}>
             Fechar
           </Button>
-          <Button className="cursor-pointer p-0">
+          <Button className="p-0">
             <Link
               href="/presentes"
               className="flex items-center justify-center w-full h-full p-4"

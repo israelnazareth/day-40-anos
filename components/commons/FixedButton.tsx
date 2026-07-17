@@ -52,7 +52,7 @@ export function FixedButton() {
     >
       <Button
         onClick={() => (window.location.href = "#rsvp")}
-        className="bg-silver-gradient text-black hover:brightness-75 cursor-pointer p-5 text-md"
+        className="bg-silver-gradient text-black hover:brightness-75 p-5 text-md"
       >
         <Sparkles />
         Confirmar presença
