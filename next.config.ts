@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "sonhodospes.vtexassets.com",
       },
+      {
+        protocol: "https",
+        hostname: "rexuaeccrbontsanemyz.supabase.co",
+      },
     ],
   },
   allowedDevOrigins: ["xanthochroid-homelier-malaya.ngrok-free.dev"],
