@@ -25,21 +25,21 @@ export function UploadedFileItem({
       className="flex flex-col rounded-lg border border-border p-2"
       key={file.name}
     >
-      <div className="flex items-center gap-2">
-        <div className="row-span-2 flex h-14 w-18 items-center justify-center self-start overflow-hidden rounded-sm bg-muted">
+      <div className="flex flex-col justify-center sm:flex-row items-center gap-2">
+        <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-sm bg-muted">
           <Image
             alt={file.name}
-            className="h-full w-full object-cover"
+            className="h-full w-full"
             src={imageUrl}
-            width={72}
-            height={56}
+            width={48}
+            height={48}
           />
         </div>
 
         <div className="flex-1 pr-1">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="max-w-[250px] truncate text-foreground text-sm">
+              <span className="max-w-62.5 text-foreground text-sm">
                 {file.name}
               </span>
               <span className="whitespace-nowrap text-muted-foreground text-sm">

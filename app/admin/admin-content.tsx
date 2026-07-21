@@ -6,8 +6,10 @@ import { RSVPTable } from "@/components/admin/RSVPTable";
 import { GiftTable } from "@/components/admin/GiftTable";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { GiftConfirmationsRecord } from "@/lib/db/schema";
-import { RSVPRecord } from "@/types/forms";
-import type { Gift } from "@/types/forms";
+import { Gift, RSVPRecord } from "@/types/forms";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { Gift as GiftIcon, List, Package } from "lucide-react";
+import React from "react";
 
 export function AdminContent({
   rsvps,
@@ -19,24 +21,46 @@ export function AdminContent({
   gifts: Gift[];
 }) {
   const [giftsKey, setGiftsKey] = useState(0);
+  const isMobile = useIsMobile();
 
   const handleGiftsRefresh = () => {
     setGiftsKey((prev) => prev + 1);
   };
 
+  const items = [
+    {
+      label: "Confirmações",
+      value: "rsvps",
+      icon: List,
+    },
+    {
+      label: "Presentes Recebidos",
+      value: "gifts",
+      icon: GiftIcon,
+    },
+    {
+      label: "Gerenciar Presentes",
+      value: "manage-gifts",
+      icon: Package,
+    },
+  ];
+
   return (
     <Tabs defaultValue="rsvps">
       <div className="flex items-center justify-between gap-3">
-        <TabsList className="bg-secondary/60">
-          <TabsTrigger className="cursor-pointer p-3" value="rsvps">
-            Confirmações
-          </TabsTrigger>
-          <TabsTrigger className="cursor-pointer p-3" value="gifts">
-            Presentes Confirmados
-          </TabsTrigger>
-          <TabsTrigger className="cursor-pointer p-3" value="manage-gifts">
-            Gerenciar Presentes
-          </TabsTrigger>
+        <TabsList className="bg-secondary/60 justify-between max-md:flex-1">
+          {items.map((item) => (
+            <TabsTrigger
+              key={item.value}
+              className="cursor-pointer"
+              value={item.value}
+            >
+              <span className="mr-2 flex items-center gap-2">
+                {React.createElement(item.icon, { className: "w-4 h-4" })}
+                {isMobile ? `${item.label.slice(0, 3)}.` : item.label}
+              </span>
+            </TabsTrigger>
+          ))}
         </TabsList>
       </div>
 
