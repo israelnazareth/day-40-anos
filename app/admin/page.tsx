@@ -7,6 +7,7 @@ import { LogoutButton } from "@/components/admin/LogoutButton";
 import { getEventBySlug } from "@/lib/db/queries/events";
 import { getRSVPs } from "@/lib/db/queries/rsvps";
 import { getGiftConfirmations } from "@/lib/db/queries/gift-confirmations";
+import { getGifts } from "@/lib/db/queries/gifts";
 
 export default async function AdminPage() {
   const event = await getEventBySlug("day-40-anos");
@@ -14,6 +15,8 @@ export default async function AdminPage() {
   const giftConfirmations = await getGiftConfirmations(event?.id ?? "");
 
   const rsvps = await getRSVPs(event?.id ?? "");
+
+  const gifts = await getGifts(event?.id ?? "");
 
   return (
     <main className="min-h-screen bg-background">
@@ -48,7 +51,11 @@ export default async function AdminPage() {
 
       <section className="px-6 py-8">
         <div className="mx-auto max-w-4xl">
-          <AdminContent rsvps={rsvps} giftConfirmations={giftConfirmations} />
+          <AdminContent
+            rsvps={rsvps}
+            giftConfirmations={giftConfirmations}
+            gifts={gifts}
+          />
         </div>
       </section>
     </main>

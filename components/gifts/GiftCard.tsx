@@ -26,7 +26,7 @@ export function GiftCard({
             alt={gift.name}
             width={300}
             height={300}
-            className="max-h-40 w-auto rounded-lg object-cover"
+            className="w-auto rounded-lg object-cover"
             loading="eager"
           />
         </div>
