@@ -3,6 +3,8 @@ import { getGifts } from "@/lib/db/queries/gifts";
 
 import { GiftsView } from "./gifts-view";
 
+export const revalidate = 0;
+
 export default async function GiftsPage() {
   const event = await getEventBySlug("day-40-anos");
 

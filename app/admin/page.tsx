@@ -9,6 +9,8 @@ import { getRSVPs } from "@/lib/db/queries/rsvps";
 import { getGiftConfirmations } from "@/lib/db/queries/gift-confirmations";
 import { getGifts } from "@/lib/db/queries/gifts";
 
+export const revalidate = 0;
+
 export default async function AdminPage() {
   const event = await getEventBySlug("day-40-anos");
 
