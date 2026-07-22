@@ -9,13 +9,17 @@ import {
 import { formatValueToBRL } from "@/lib/format-currency";
 import { formatPhone } from "@/lib/format-phone";
 import { GiftConfirmationsRecord } from "@/lib/db/schema";
+import { Gift } from "@/types/forms";
 
 type GiftConfirmationTableProps = {
   giftConfirmations: GiftConfirmationsRecord[];
+  gifts: Gift[];
 };
 
 export function GiftConfirmationTable(props: GiftConfirmationTableProps) {
-  const { giftConfirmations } = props;
+  const { giftConfirmations, gifts } = props;
+
+  const giftMap = new Map(gifts.map((gift) => [gift.id, gift.name]));
 
   if (giftConfirmations.length === 0) {
     return (
@@ -46,7 +50,9 @@ export function GiftConfirmationTable(props: GiftConfirmationTableProps) {
               <TableCell>
                 {formatPhone(giftConfirmation.phone ?? "—")}
               </TableCell>
-              <TableCell>{giftConfirmation.name ?? "—"}</TableCell>
+              <TableCell>
+                {giftMap.get(giftConfirmation.giftId) ?? "—"}
+              </TableCell>
               <TableCell className="text-right">
                 {formatValueToBRL(giftConfirmation.paidValue ?? "—")}
               </TableCell>

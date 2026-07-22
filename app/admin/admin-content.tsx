@@ -69,7 +69,10 @@ export function AdminContent({
       </TabsContent>
 
       <TabsContent value="gifts" className="mt-6">
-        <GiftConfirmationTable giftConfirmations={giftConfirmations} />
+        <GiftConfirmationTable
+          giftConfirmations={giftConfirmations}
+          gifts={gifts}
+        />
       </TabsContent>
 
       <TabsContent value="manage-gifts" className="mt-6">
