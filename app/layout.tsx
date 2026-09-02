@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Day Muniz • 40 anos",
     description:
-      "Convite Especial para os 40 anos da Day • Dia 02 de Outubro de 2026 • Espaço Zarifi - Rua das Margaridas, 335 — Vila Valqueire, Rio de Janeiro",
+      "Convite Especial para os 40 anoss da Day • Dia 02 de Outubro de 2026 • Espaço Zarifi - Rua das Margaridas, 335 — Vila Valqueire, Rio de Janeiro",
     images: [
       {
         url: "/og-image.webp",
