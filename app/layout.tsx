@@ -1,8 +1,8 @@
+import { Toaster } from "@/components/ui/sonner";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const playfair = Playfair_Display({
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
       "Convite Especial para os 40 anos da Day • Dia 02 de Outubro de 2026 • Espaço Zarifi - Rua das Margaridas, 335 — Vila Valqueire, Rio de Janeiro",
     images: [
       {
-        url: "/og-image.webp",
+        url: "/og-image.jpeg",
         width: 1200,
         height: 630,
         alt: "Day Muniz • 40 anos",
