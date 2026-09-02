@@ -1,11 +1,25 @@
 import { Button } from "@/components/ui/button";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { EVENT } from "@/config/event";
-import Day from "@/public/day.webp";
-import Name from "@/public/name.png";
 import Logo from "@/public/logo-no-bg.png";
+import Name from "@/public/name.png";
+import { Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "../commons/Reveal";
+
+const photos = [
+  "/day40anos/day0.jpeg",
+  "/day40anos/day1.jpeg",
+  "/day40anos/day2.jpeg",
+  "/day40anos/day3.jpeg",
+];
 
 export function Hero() {
   return (
@@ -36,12 +50,30 @@ export function Hero() {
             loading="eager"
           />
 
-          <Image
-            src={Day}
-            alt="Day"
-            className="mt-6 rounded-2xl m-auto w-full max-w-xs"
-            loading="eager"
-          />
+          <Carousel
+            className="mt-8 w-full max-w-sm"
+            opts={{ align: "start", loop: true }}
+            aria-label={`Fotos de ${EVENT.honoree}`}
+          >
+            <CarouselContent>
+              {photos.map((photo, index) => (
+                <CarouselItem key={photo}>
+                  <div className="relative aspect-[2/3] overflow-hidden rounded-3xl border border-silver/30 bg-card shadow-xl">
+                    <Image
+                      src={photo}
+                      alt={`Foto ${index + 1} de ${EVENT.honoree}`}
+                      fill
+                      sizes="(max-width: 640px) calc(100vw - 3rem), 384px"
+                      className="object-cover"
+                      priority={index === 0}
+                    />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious className="left-3 border-white/60 bg-black/35 text-white hover:bg-black/60 hover:text-white" />
+            <CarouselNext className="right-3 border-white/60 bg-black/35 text-white hover:bg-black/60 hover:text-white" />
+          </Carousel>
 
           <Image
             src={Logo}
@@ -74,7 +106,11 @@ export function Hero() {
           </div>
 
           <div className="mt-12 m-auto">
-            <Button variant="outline">
+            {/* <Button variant="outline">
+              <Link href="/presentes">Lista de presentes</Link>
+            </Button> */}
+            <Button className="bg-silver-gradient text-black hover:brightness-75 p-5 text-md">
+              <Sparkles />
               <Link href="/presentes">Lista de presentes</Link>
             </Button>
           </div>

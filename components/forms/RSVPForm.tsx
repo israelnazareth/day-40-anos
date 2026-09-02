@@ -1,17 +1,17 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Controller, useForm } from "react-hook-form";
 
 import { createRSVPAction } from "@/actions/rsvp";
 
+import { ConfirmDialog } from "@/components/commons/ConfirmDialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import { ConfirmDialog } from "@/components/commons/ConfirmDialog";
 
 import { formatPhone, unformatPhone } from "@/lib/format-phone";
 import { Event } from "@/types/forms";
@@ -126,11 +126,11 @@ export function RSVPForm({ event }: RSVPFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="rsvp-message">Mensagem para a Day (opcional)</Label>
+        <Label htmlFor="rsvp-message">Nome(s) do(s) acompanhante(s):</Label>
         <Textarea
           id="rsvp-message"
           rows={3}
-          placeholder="Deixe um recadinho carinhoso"
+          placeholder="Ex: Maria, João, Ana"
           {...form.register("message")}
         />
       </div>

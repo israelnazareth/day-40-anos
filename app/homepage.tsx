@@ -32,7 +32,7 @@ export function Homepage({ event }: HomepageProps) {
       id: 1,
       icon: Palette,
       title: "Cores",
-      description: "All Black! Sem brilho.",
+      description: "All Black! NÃO USE BRILHO!",
     },
     {
       id: 2,
@@ -71,8 +71,9 @@ export function Homepage({ event }: HomepageProps) {
 
         <section className="px-6 py-8 text-center">
           <p className="mx-auto max-w-md font-display text-lg italic leading-relaxed text-silver">
-            &quot;Quarenta primaveras merecem ser celebradas com quem faz a vida
-            valer a pena. Sua presença é o meu maior presente.&quot;
+            &quot;Quatro décadas de amor, aprendizados, sorrisos e recomeços!!
+            Chegou a hora de celebrar a vida com quem faz parte da minha
+            história!&quot;
           </p>
         </section>
       </Reveal>
@@ -128,7 +129,7 @@ export function Homepage({ event }: HomepageProps) {
               Confirme sua presença
             </h2>
             <p className="text-muted-foreground mt-2 text-center text-sm">
-              Precisamos da sua confirmação até 20 de setembro.
+              Precisamos da sua confirmação até 15 de setembro.
             </p>
             <div className="mt-8 rounded-lg border border-silver bg-card/40 p-5 shadow-silver-glow">
               <RSVPForm event={event} />
