@@ -22,7 +22,7 @@ export function RSVPTable({ rsvps }: { rsvps: RSVPRecord[] }) {
             <TableHead>Nome</TableHead>
             <TableHead>WhatsApp</TableHead>
             <TableHead className="text-right">Acomp.</TableHead>
-            <TableHead>Mensagem</TableHead>
+            <TableHead>Nome(s) do(s) acompanhante(s)</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -31,7 +31,7 @@ export function RSVPTable({ rsvps }: { rsvps: RSVPRecord[] }) {
               <TableCell className="font-medium">{rsvp.name}</TableCell>
               <TableCell>{formatPhone(rsvp.phone ?? "")}</TableCell>
               <TableCell className="text-right">{rsvp.companions}</TableCell>
-              <TableCell className="max-w-[240px] truncate text-muted-foreground">
+              <TableCell className="max-w-[240px] text-muted-foreground">
                 {rsvp.message || "-"}
               </TableCell>
             </TableRow>
