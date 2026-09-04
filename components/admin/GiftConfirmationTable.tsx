@@ -56,7 +56,7 @@ export function GiftConfirmationTable(props: GiftConfirmationTableProps) {
               <TableCell className="text-right">
                 {formatValueToBRL(giftConfirmation.paidValue ?? "—")}
               </TableCell>
-              <TableCell className="max-w-60 truncate text-muted-foreground">
+              <TableCell className="max-w-60 whitespace-wrap text-muted-foreground">
                 {giftConfirmation.observation}
               </TableCell>
             </TableRow>
