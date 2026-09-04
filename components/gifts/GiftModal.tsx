@@ -10,7 +10,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Copy, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import QRCodePix from "react-qrcode-pix";
+import QRCode from "react-qr-code";
+import { generateGiftPix } from "@/lib/pix";
 import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "../ui/button";
@@ -45,8 +46,11 @@ type GiftModalProps = {
 
 export function GiftModal(props: GiftModalProps) {
   const { event, gift, open, setOpen } = props;
-  const [copyPastePix, setCopyPastePix] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
+
+  const copyPastePix = useMemo(() => {
+    return generateGiftPix(Number(gift?.price ?? 0));
+  }, [gift?.price]);
 
   const now = useMemo(() => new Date().getTime().toString(), []);
 
@@ -123,29 +127,26 @@ export function GiftModal(props: GiftModalProps) {
             <div className="flex items-center gap-3">
               <div className="shrink-0">
                 <div className="bg-white p-1.5 rounded-lg shadow-sm">
-                  <QRCodePix
-                    pixkey={event.pixKey}
-                    merchant={event.pixName}
-                    city="Rio de Janeiro"
-                    code={"RQP" + now}
-                    amount={Number(gift?.price ?? 0)}
-                    onLoad={setCopyPastePix}
-                    size={120}
-                  />
+                  <QRCode value={copyPastePix} size={120} level="M" />
                 </div>
               </div>
               <div className="min-w-0 flex-1 text-left">
-                <p className="font-body text-[9px] uppercase tracking-[0.25em] text-muted-foreground">
-                  Chave Celular
+                <p className="font-bold text-[10px] uppercase tracking-[0.25em] text-silver">
+                  Pague pelo banco
                 </p>
-                <p className="font-sans text-sm text-deep">{event.pixKey}</p>
-                <p className="font-body text-[10px] text-muted-foreground">
-                  {event.pixName}
-                </p>
+                <div className="flex flex-wrap mt-1 font-body text-[12px] text-muted-foreground">
+                  <p className="mr-2">Clique no botão</p>
+                  <span className="font-semibold text-silver inline-flex items-center gap-1">
+                    <Copy className="mr-1 h-4 w-4" /> Copiar Pix
+                  </span>
+                  <p>
+                    para copiar o código Pix e cole no aplicativo do seu banco.
+                  </p>
+                </div>
                 <Button
                   size="sm"
                   variant="outline"
-                  className="mt-2 w-full inline-flex items-center justify-center gap-1.5 border-silver bg-transparent"
+                  className="mt-2 p-4 w-full inline-flex items-center justify-center gap-1.5 border-silver bg-transparent"
                   onClick={copyPixCode}
                 >
                   <Copy className="mr-1 h-4 w-4" /> Copiar Pix
