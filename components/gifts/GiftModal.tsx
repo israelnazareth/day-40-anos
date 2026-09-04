@@ -52,8 +52,6 @@ export function GiftModal(props: GiftModalProps) {
     return generateGiftPix(Number(gift?.price ?? 0));
   }, [gift?.price]);
 
-  const now = useMemo(() => new Date().getTime().toString(), []);
-
   const form = useForm<GiftFormValues>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
