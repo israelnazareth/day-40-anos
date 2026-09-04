@@ -25,6 +25,7 @@ import {
 } from "../ui/field";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const FormSchema = z.object({
   name: z.string().trim().min(2, "Digite seu nome").max(80),
@@ -47,6 +48,8 @@ type GiftModalProps = {
 export function GiftModal(props: GiftModalProps) {
   const { event, gift, open, setOpen } = props;
   const [isSubmitting, setSubmitting] = useState(false);
+
+  const isMobile = useIsMobile();
 
   const copyPastePix = useMemo(() => {
     return generateGiftPix(Number(gift?.price ?? 0));
@@ -123,23 +126,25 @@ export function GiftModal(props: GiftModalProps) {
 
           <div className="mt-3 rounded-xl border border-border bg-linear-to-br from-foam/60 to-secondary/60 p-3">
             <div className="flex items-center gap-3">
-              <div className="shrink-0">
-                <div className="bg-white p-1.5 rounded-lg shadow-sm">
-                  <QRCode value={copyPastePix} size={120} level="M" />
+              {!isMobile && (
+                <div className="shrink-0">
+                  <div className="bg-white p-1.5 rounded-lg shadow-sm">
+                    <QRCode value={copyPastePix} size={120} level="M" />
+                  </div>
                 </div>
-              </div>
-              <div className="min-w-0 flex-1 text-left">
+              )}
+              <div className="min-w-0 flex-1 text-left gap-2 flex flex-col">
                 <p className="font-bold text-[10px] uppercase tracking-[0.25em] text-silver">
                   Pague pelo banco
                 </p>
-                <div className="flex flex-wrap mt-1 font-body text-[12px] text-muted-foreground">
-                  <p className="mr-2">Clique no botão</p>
-                  <span className="font-semibold text-silver inline-flex items-center gap-1">
-                    <Copy className="mr-1 h-4 w-4" /> Copiar Pix
+                <div className="font-body text-[12px] text-muted-foreground">
+                  <span>Clique no botão</span>
+                  <span className="flex font-semibold text-silver inline-flex items-center gap-1 mx-1">
+                    <Copy className="mr-0.5 h-2.5 w-2.5" /> Copiar Pix
                   </span>
-                  <p>
+                  <span>
                     para copiar o código Pix e cole no aplicativo do seu banco.
-                  </p>
+                  </span>
                 </div>
                 <Button
                   size="sm"
